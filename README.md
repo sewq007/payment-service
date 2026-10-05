@@ -9,28 +9,34 @@
 - SQLAlchemy 2 (async) + aiosqlite (SQLite)
 - pytest + httpx (ASGI transport)
 
-## Структура
+## Структура репозитория
 
 ```
-payment_service/
-├── app/
-│   ├── main.py        # FastAPI-приложение и эндпоинты
-│   ├── database.py    # async engine, session, init_db
-│   ├── models.py      # SQLAlchemy-модели Tariff и Payment
-│   ├── schemas.py     # Pydantic-схемы
-│   ├── crud.py        # операции с БД
-│   └── services.py    # бизнес-логика: промокод, график рассрочки
-├── tests/
-│   ├── conftest.py
-│   └── test_payments.py
-├── pytest.ini
-├── requirements.txt
-└── README.md
+payment-service/
+├── README.md
+├── AI_LOG.md
+├── .gitignore
+└── payment_service/
+    ├── app/
+    │   ├── main.py         # FastAPI-приложение и эндпоинты
+    │   ├── database.py     # async engine, session, init_db
+    │   ├── models.py       # SQLAlchemy-модели Tariff и Payment
+    │   ├── schemas.py      # Pydantic-схемы
+    │   ├── crud.py         # операции с БД
+    │   └── services.py     # бизнес-логика: промокод, график рассрочки
+    ├── tests/
+    │   ├── conftest.py
+    │   └── test_payments.py
+    ├── pytest.ini
+    └── requirements.txt
 ```
 
 ## Установка
 
+Из корня репозитория:
+
 ```bash
+cd payment_service
 python -m venv .venv
 # Windows (PowerShell)
 .venv\Scripts\Activate.ps1
@@ -42,6 +48,8 @@ pip install -r requirements.txt
 
 ## Запуск
 
+Из папки `payment_service/` (там, где лежит `app/`):
+
 ```bash
 uvicorn app.main:app --reload
 ```
@@ -52,6 +60,8 @@ uvicorn app.main:app --reload
 При первом запуске автоматически создаётся `payments.db` и засеиваются тарифы.
 
 ## Тесты
+
+Из папки `payment_service/`:
 
 ```bash
 pytest -v
@@ -127,8 +137,8 @@ curl -s -X POST http://127.0.0.1:8000/webhooks/bank \
   -d '{"payment_id":"<PAYMENT_ID>","status":"pending"}'
 ```
 
-> Windows PowerShell: используйте `curl.exe`, а не `curl` (последний — алиас на
-> `Invoke-WebRequest` с другим синтаксисом).
+> Windows PowerShell: используйте `curl.exe`, а не `curl` (последний — алиас
+> на `Invoke-WebRequest` с другим синтаксисом).
 
 ## Бизнес-правила
 
